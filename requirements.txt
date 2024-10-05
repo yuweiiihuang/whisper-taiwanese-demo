@@ -1,0 +1,6 @@
+gradio==3.30.0
+torch==2.0.1
+transformers==4.30.0
+peft==0.4.0
+yt-dlp==2023.12.1
+stable-whisper==0.2.0
