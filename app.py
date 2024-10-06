@@ -108,12 +108,12 @@ def yt_transcribe(yt_url):
 
 # 範例音訊檔案
 example_paths = [
-    ["../examples/common_voice_1.mp3"],
-    ["../examples/common_voice_2.mp3"],
-    ["../examples/common_voice_3.mp3"],
-    ["../examples/dictionary_1.mp3"],
-    ["../examples/dictionary_2.mp3"],
-    ["../examples/dictionary_3.mp3"],
+    ["examples/common_voice_1.mp3"],
+    ["examples/common_voice_2.mp3"],
+    ["examples/common_voice_3.mp3"],
+    ["examples/dictionary_1.mp3"],
+    ["examples/dictionary_2.mp3"],
+    ["examples/dictionary_3.mp3"],
 ]
 
 example_info = """
