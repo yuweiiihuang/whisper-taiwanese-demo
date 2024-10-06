@@ -1,8 +1,19 @@
 # Whisper 台語轉錄演示
 
+## Hugging Face Space 版本
+
+此演示有一個託管在 Hugging Face Spaces 的版本，可以直接線上體驗該展示，而無需在本地端進行設置。訪問以下網址即可使用：
+[Whisper 台語轉錄 - Hugging Face Space](https://huggingface.co/spaces/yuweiiizz/whisper-taiwanese)
+
+![Hugging Face Space](https://img.shields.io/badge/Hugging%20Face-Space-blue)
+
+這個 Hugging Face Space 提供了與本地端版本相同的功能，包括音檔轉錄和 YouTube 影片轉錄，方便快速測試和使用。
+
+## 本地端版本
+
 這是一個基於 Gradio 的展示，使用經過 PEFT-LoRA 微調的 Whisper 模型來轉錄台語音檔檔案和 YouTube 影片。
 
-## 目錄
+### 目錄
 
 - [功能](#功能)
 - [前置需求](#前置需求)
@@ -15,7 +26,7 @@
   - [使用網頁介面](#使用網頁介面)
 - [專案結構](#專案結構)
 
-## 功能
+### 功能
 
 - **音檔轉錄**：將上傳或使用麥克風錄製的台語音檔轉換為華語。
 - **YouTube 轉錄**：轉錄 YouTube 影片中的音檔並生成 SRT 字幕檔案。
@@ -23,7 +34,7 @@
 - **裝置相容性**：支援 Apple Metal (MPS)、CUDA 及 CPU 進行運算。
 - **使用者介面**：使用 Gradio 架設互動式的網頁介面。
 
-## 前置需求
+### 前置需求
 
 - **Python**：版本 3.11 或更高。
 - **硬體**：
@@ -32,36 +43,36 @@
   - **CPU**：若無 GPU 可使用 CPU 進行運算。
 - **Git**：用於複製存儲庫。
 
-## 安裝
+### 安裝
 
-### 1. 複製存儲庫
+#### 1. 複製存儲庫
 
-首先，使用 Git 將存儲庫複製到本機：
+首先，使用 Git 將存儲庫複製到本地端：
 
 ```bash
 git clone https://github.com/yuweiiihuang/whisper-taiwanese-demo.git
 cd whisper-taiwanese-demo
 ```
 
-### 2. 設置虛擬環境
+#### 2. 設置虛擬環境
 
 建議使用虛擬環境來管理依賴套件。
 
-#### 使用 `venv`
+##### 使用 `venv`
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate  # Windows 使用者請執行: venv\Scripts\activate
 ```
 
-#### 使用 `conda`
+##### 使用 `conda`
 
 ```bash
 conda create -n whisper-env python=3.11
 conda activate whisper-env
 ```
 
-### 3. 安裝依賴套件
+#### 3. 安裝依賴套件
 
 使用 `pip` 安裝所需的 Python 套件。確保已安裝最新版本的 `pip`：
 
@@ -79,9 +90,9 @@ pip install -r requirements.txt
 
 更多詳情請參閱 [PyTorch 安裝指南](https://pytorch.org/get-started/locally/)。
 
-## 使用方法
+### 使用方法
 
-### 執行應用程式
+#### 執行應用程式
 
 安裝完依賴套件後，可以執行應用程式：
 
@@ -120,7 +131,7 @@ python app.py
      - 轉錄後的影片轉錄稿。
      - 可下載的 SRT 字幕檔案。
 
-## 專案結構
+### 專案結構
 
 ``` plaintext
 whisper-taiwanese-demo/
