@@ -75,7 +75,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-**注意**：可能需要安裝特定版本的 `torch` 以支援不同的裝置。
+**注意**：可能需要安裝特定版本的 `torch` 以支援不同的裝置（如: CUDA）。
 
 更多詳情請參閱 [PyTorch 安裝指南](https://pytorch.org/get-started/locally/)。
 
@@ -103,7 +103,18 @@ python app.py
    - **範例**：預載的音檔檔案展示轉錄範例。
 
 2. **YouTube 轉錄**：
-   - **輸入**：輸入 YouTube 影片的 URL。
+   - **輸入**：輸入 YouTube 影片的 URL，**必須符合以下格式**：
+
+     ``` plaintext
+     https://www.youtube.com/watch?v={video_id}
+     ```
+
+     如：
+
+     ``` plaintext
+     https://www.youtube.com/watch?v=1-9c7nMZZvM
+     ```
+
    - **輸出**：
      - 嵌入的 YouTube 影片供參考。
      - 轉錄後的影片轉錄稿。
