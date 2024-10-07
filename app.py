@@ -39,7 +39,7 @@ pipe = pipeline(
     tokenizer=tokenizer, 
     feature_extractor=feature_extractor,
     max_new_tokens=128,
-    chunk_length_s=15
+    chunk_length_s=10
     )
 
 # 轉錄音訊檔案的功能
@@ -55,6 +55,56 @@ def transcribe(microphone=None, file_upload=None):
 
     text = pipe(file, generate_kwargs={"task": task, "language": language})["text"]
     return warn_output + text
+
+def split_text_by_punctuation(chunks):
+    new_chunks = []
+
+    for chunk in chunks:
+        text = chunk['text']
+        start_time = chunk['start']
+        end_time = chunk['end']
+        
+        # 以中文標點符號切分句子
+        sentences = [s for s in text.split('，')]
+
+        # 計算每個句子的平均持續時間
+        total_duration = end_time - start_time
+        total_length = sum(len(s) for s in sentences)
+
+        current_start = start_time
+        for sentence in sentences:
+            # 根據每個句子的長度計算其持續時間
+            sentence_length = len(sentence)
+            duration_ratio = sentence_length / total_length
+            sentence_duration = total_duration * duration_ratio
+            current_end = min(current_start + sentence_duration, end_time)
+
+            # 確保當前的結束時間不小於開始時間，並且不會重疊
+            if current_end > current_start:
+                new_chunks.append({
+                    "start": current_start,
+                    "end": current_end,
+                    "text": sentence
+                })
+                current_start = current_end
+
+    return new_chunks
+
+# 定義轉錄函數
+def inference(audio, **kwargs) -> dict:
+    pipe_output = pipe(audio, generate_kwargs={"task": task, "language": language}, return_timestamps=True)
+    chunks = [
+        {
+            "start": c['timestamp'][0] or 0, 
+            "end": c['timestamp'][1] or c['timestamp'][0] + 5, 
+            "text": c['text']
+        } 
+        for c in pipe_output['chunks']
+    ]
+    
+    # 標點符號切分句子
+    new_chunks = split_text_by_punctuation(chunks)
+    return new_chunks
 
 # 轉錄 YouTube 影片的功能
 def yt_transcribe(yt_url):
@@ -77,12 +127,6 @@ def yt_transcribe(yt_url):
             info_dict = ydl.extract_info(yt_url, download=True)
             audio_path = ydl.prepare_filename(info_dict)
             audio_path = os.path.splitext(audio_path)[0] + ".mp3"
-
-        # 定義轉錄函數
-        def inference(audio, **kwargs) -> dict:
-            pipe_output = pipe(audio, generate_kwargs={"task": task, "language": language}, return_timestamps=True)
-            chunks = [{"start": c['timestamp'][0] or 0, "end": c['timestamp'][1] or c['timestamp'][0] + 5, "text": c['text']} for c in pipe_output['chunks']]
-            return chunks
 
         # 使用 stable_whisper 進行轉錄
         result = stable_whisper.transcribe_any(inference, audio_path, vad=True)
